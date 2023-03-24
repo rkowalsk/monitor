@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.10.3 -->
+<interface>
+  <!-- interface-name monitor.ui -->
+  <requires lib="gtk" version="4.6"/>
+  <object class="GtkApplicationWindow" id="MainWindow">
+    <property name="default-height">500</property>
+    <property name="default-width">700</property>
+    <property name="maximized">True</property>
+    <property name="show-menubar">True</property>
+    <property name="title">Monitor</property>
+    <child>
+      <object class="GtkBox" id="WindowBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="justify">center</property>
+            <property name="label">Truc Machin</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="ServerListScrollWindow">
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkListView" id="ServerList"/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

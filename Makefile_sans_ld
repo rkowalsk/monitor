@@ -1,0 +1,29 @@
+NAME = moniteur.exe
+
+HEADERS_DIR = headers
+
+HEADERS =	headers/MyWindow.hpp
+
+SRCS =	srcs/main.cpp
+
+FLAGS = -Wall -Wextra -Werror $(shell pkg-config gtkmm-4.0 --cflags --libs)
+
+OBJS = ${SRCS:.cpp=.o}
+
+.PHONY: all clean fclean re
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(HEADERS)
+	g++ $(OBJS) -o $(NAME)
+
+$(OBJS): %.o: %.cpp $(HEADERS)
+	g++ -c $< -o $@ $(FLAGS) -I$(HEADERS_DIR)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
