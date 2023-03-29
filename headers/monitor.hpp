@@ -9,8 +9,11 @@
 #include <iostream>
 #include <giomm/liststore.h>
 #include <glibmm/ustring.h>
+#include <fstream>
 
 #include "Server.hpp"
+
+#define CSV_DELIMITER ','	
 
 class Server;
 
