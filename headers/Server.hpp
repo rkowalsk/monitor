@@ -22,11 +22,16 @@ class Server : public Glib::Object
 		void			set_reachable(bool const &is_reachable);
 		void			set_saved(bool const &is_saved);
 
+		static void		on_setup(Glib::RefPtr<Gtk::ListItem> const &list_item);
+		static void		on_bind(Glib::RefPtr<Gtk::ListItem> const &list_item);
+
 
 	protected:
 		// void	on_button_clicked();
 
 	private:
+		static void		setup_labels(Gtk::Label *name, Gtk::Label *ip,
+			Gtk::Label *login, Gtk::Label *password);
 		Glib::ustring	name;
 		Glib::ustring	ip;
 		Glib::ustring	login;

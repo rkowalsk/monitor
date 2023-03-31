@@ -89,6 +89,6 @@ bool	get_server_list(Glib::ustring const &list_path,
 	Glib::RefPtr<Gio::ListStore<Server>> &server_list)
 {
 	if (fill_list_store(list_path, server_list))
-		return (1);
+		return (1);	
 	return (0);
 }

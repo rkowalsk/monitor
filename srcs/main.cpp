@@ -1,13 +1,44 @@
 #include "monitor.hpp"
 
+//note: view.signal_activate pour quand la row est double clickée
+
+bool	prepare_view(Glib::RefPtr<Gtk::Builder>	builder,
+	Glib::RefPtr<Gio::ListStore<Server>> &server_list)
+{
+	Glib::RefPtr<Gtk::NoSelection>				selection_model;
+	Glib::RefPtr<Gtk::SignalListItemFactory>	factory;
+	Gtk::ListView								*view;
+
+	view = builder->get_widget<Gtk::ListView>("ServerList");
+	if (!view)
+	{
+		std::cerr << "Unable to get ServerList" << std::endl;
+		return (1);
+	}
+
+	selection_model = Gtk::NoSelection::create(server_list);
+	factory = Gtk::SignalListItemFactory::create();
+
+	factory->signal_setup().connect(sigc::ptr_fun(&Server::on_setup));
+	factory->signal_bind().connect(sigc::ptr_fun(&Server::on_bind));
+
+	view->set_model(selection_model);
+	view->set_factory(factory);
+	return (0);
+}
+
 void	on_app_activate(Glib::RefPtr<Gtk::Application> &app,
 	Glib::RefPtr<Gio::ListStore<Server>> &server_list)
 {
-	auto builder = Gtk::Builder::create_from_file("ui/monitor.ui");
-	(void) server_list;
+	Glib::RefPtr<Gtk::Builder>	builder;
+	Gtk::Window					*main_window;
 
-	Gtk::Window *main_window = builder->get_widget<Gtk::ApplicationWindow>(
-		"MainWindow");
+	builder = Gtk::Builder::create_from_file("ui/monitor.ui");
+
+	if (prepare_view(builder, server_list))
+		exit(1);
+
+	main_window = builder->get_widget<Gtk::ApplicationWindow>("MainWindow");
 	if (!main_window)
 	{
 		std::cerr << "Unable to get MainWindow" << std::endl;

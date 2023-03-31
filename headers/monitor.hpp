@@ -10,10 +10,16 @@
 #include <giomm/liststore.h>
 #include <glibmm/ustring.h>
 #include <fstream>
+#include <gtkmm/noselection.h>
+#include <gtkmm/signallistitemfactory.h>
+#include <gtkmm/listview.h>
+#include <gtkmm/listitem.h>
+#include <gtkmm/label.h>
+#include <functional>
 
 #include "Server.hpp"
 
-#define CSV_DELIMITER ','	
+#define CSV_DELIMITER ','
 
 class Server;
 
