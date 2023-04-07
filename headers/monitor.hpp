@@ -15,14 +15,29 @@
 #include <gtkmm/listview.h>
 #include <gtkmm/listitem.h>
 #include <gtkmm/label.h>
+#include <gtkmm/image.h>
 #include <functional>
+#include <chrono>
+#include <thread>
+#include <glibmm/main.h>
+#include <cstdlib>
 
 #include "Server.hpp"
+#include "Config.hpp"
 
+#define	CONFIG_FILE_PATH "monitor.conf"
 #define CSV_DELIMITER ','
+// à modifier pour modifier les icones de sauvegardes et de connexion
+#define SAVED_ICON "drive-harddisk-symbolic"
+#define UNSAVED_ICON "task-past-due-symbolic"
+#define REACHABLE_ICON "network-transmit-receive-symbolic"
+#define UNREACHABLE_ICON "network-error-symbolic"
 
-class Server;
+class	Server;
+struct	Config;
 
 // fonctions
 bool	get_server_list(Glib::ustring const &list_path,
 	Glib::RefPtr<Gio::ListStore<Server>> &server_list);
+bool	loop(Glib::RefPtr<Gio::ListStore<Server>> server_list);
+bool	get_config(Config &config);

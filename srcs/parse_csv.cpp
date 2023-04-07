@@ -18,7 +18,6 @@ bool	csv_line_to_Server(Glib::ustring line, Server &new_server)
 		pos = new_pos + 1;
 	}
 	param_list.push_back(line.substr(pos));
-
 	if (line.find(CSV_DELIMITER, pos) != Glib::ustring::npos) // vrai s'il y a une virgule de trop
 		return (1);
 

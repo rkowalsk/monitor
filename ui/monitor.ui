@@ -10,21 +10,10 @@
     <property name="show-menubar">True</property>
     <property name="title">Monitor</property>
     <child>
-      <object class="GtkBox" id="WindowBox">
-        <property name="orientation">vertical</property>
+      <object class="GtkScrolledWindow" id="ServerListScrollWindow">
+        <property name="vexpand">True</property>
         <child>
-          <object class="GtkLabel">
-            <property name="justify">center</property>
-            <property name="label">Truc Machin</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkScrolledWindow" id="ServerListScrollWindow">
-            <property name="vexpand">True</property>
-            <child>
-              <object class="GtkListView" id="ServerList"/>
-            </child>
-          </object>
+          <object class="GtkListView" id="ServerList"/>
         </child>
       </object>
     </child>

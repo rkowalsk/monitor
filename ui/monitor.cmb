@@ -6,10 +6,8 @@
   </ui>
   <object>
 	(1,1,"GtkApplicationWindow","MainWindow",None,None,None,None,None),
-	(1,4,"GtkBox","WindowBox",1,None,None,None,1),
-	(1,5,"GtkScrolledWindow","ServerListScrollWindow",4,None,None,None,1),
-	(1,6,"GtkListView","ServerList",5,None,None,None,None),
-	(1,7,"GtkLabel",None,4,None,None,None,None)
+	(1,7,"GtkScrolledWindow","ServerListScrollWindow",1,None,None,None,1),
+	(1,8,"GtkListView","ServerList",7,None,None,None,None)
   </object>
   <object_property>
 	(1,1,"GtkApplicationWindow","show-menubar","True",None,None,None,None,None),
@@ -17,9 +15,6 @@
 	(1,1,"GtkWindow","default-width","700",None,None,None,None,None),
 	(1,1,"GtkWindow","maximized","True",None,None,None,None,None),
 	(1,1,"GtkWindow","title","Monitor",None,None,None,None,None),
-	(1,4,"GtkOrientable","orientation","vertical",None,None,None,None,None),
-	(1,5,"GtkWidget","vexpand","True",None,None,None,None,None),
-	(1,7,"GtkLabel","justify","center",None,None,None,None,None),
-	(1,7,"GtkLabel","label","Truc Machin",None,None,None,None,None)
+	(1,7,"GtkWidget","vexpand","True",None,None,None,None,None)
   </object_property>
 </cambalache-project>

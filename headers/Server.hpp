@@ -19,12 +19,12 @@ class Server : public Glib::Object
 		void			set_ip(Glib::ustring const &new_ip);
 		void			set_login(Glib::ustring const &new_login);
 		void			set_password(Glib::ustring const &new_password);
-		void			set_reachable(bool const &is_reachable);
-		void			set_saved(bool const &is_saved);
 
 		static void		on_setup(Glib::RefPtr<Gtk::ListItem> const &list_item);
 		static void		on_bind(Glib::RefPtr<Gtk::ListItem> const &list_item);
 
+		bool			is_reachable(void) const;
+		// bool			is_bakced_up(void) const;
 
 	protected:
 		// void	on_button_clicked();
@@ -32,10 +32,10 @@ class Server : public Glib::Object
 	private:
 		static void		setup_labels(Gtk::Label *name, Gtk::Label *ip,
 			Gtk::Label *login, Gtk::Label *password);
+		static void		setup_icons(Gtk::Image *reachable, Gtk::Image *saved);
+
 		Glib::ustring	name;
 		Glib::ustring	ip;
 		Glib::ustring	login;
 		Glib::ustring	password;
-		bool			is_reachable; // Quand testé avec Test-WSMan
-		bool			is_saved; // Statut de la sauvegarde
 };

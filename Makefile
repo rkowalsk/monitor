@@ -6,7 +6,9 @@ HEADERS =	headers/Server.hpp \
 			headers/monitor.hpp
 
 SRCS =	srcs/main.cpp \
-		srcs/server_list.cpp \
+		srcs/parse_csv.cpp \
+		srcs/scan_loop.cpp \
+		srcs/get_config.cpp \
 		srcs/Server.cpp
 
 PKG_FLAGS = -g2 -Wall -Wextra -Werror $(shell pkg-config gtkmm-4.0 --cflags --libs)

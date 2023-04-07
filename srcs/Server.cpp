@@ -2,7 +2,7 @@
 
 // Constructeur par défaut
 Server::Server() : name("default"), ip("1.2.3.4"), login("default"),
-	password("default"), is_reachable(false), is_saved(false)
+	password("default")
 {
 }
 
@@ -35,16 +35,6 @@ Glib::ustring	Server::get_password(void) const
 	return (password);
 }
 
-bool			Server::get_reachable(void) const
-{
-	return (is_reachable);
-}
-
-bool			Server::get_saved(void) const
-{
-	return (is_saved);
-}
-
 void			Server::set_name(Glib::ustring const &new_name)
 {
 	name = new_name;
@@ -64,21 +54,12 @@ void			Server::set_password(Glib::ustring const &new_password)
 	password = new_password;
 }
 
-void			Server::set_reachable(bool const &new_reachable)
-{
-	is_reachable = new_reachable;
-}
-
-void			Server::set_saved(bool const &new_saved)
-{
-	is_saved = new_saved;
-}
-
 void			Server::setup_labels(Gtk::Label *name, Gtk::Label *ip,
 	Gtk::Label *login, Gtk::Label *password)
 {
 	name->set_justify(Gtk::Justification::LEFT);
 	name->set_expand(true);
+	name->set_max_width_chars(35);
 	name->set_width_chars(35);
 	name->set_ellipsize(Pango::EllipsizeMode::END);
 	ip->set_expand(true);
@@ -90,6 +71,16 @@ void			Server::setup_labels(Gtk::Label *name, Gtk::Label *ip,
 	password->set_selectable(true);
 }
 
+void			Server::setup_icons(Gtk::Image *reachable, Gtk::Image *saved)
+{
+	// logos d'erreur par défaut
+	saved->set_from_icon_name(UNSAVED_ICON);
+	reachable->set_icon_size(Gtk::IconSize::LARGE);
+	saved->set_icon_size(Gtk::IconSize::LARGE);
+	reachable->set_expand();
+	saved->set_expand();
+}
+
 void			Server::on_setup(Glib::RefPtr<Gtk::ListItem> const &list_item)
 {
 	auto	*box = Gtk::make_managed<Gtk::Box>();
@@ -97,11 +88,16 @@ void			Server::on_setup(Glib::RefPtr<Gtk::ListItem> const &list_item)
 	auto	*ip = Gtk::make_managed<Gtk::Label>();
 	auto	*login = Gtk::make_managed<Gtk::Label>();
 	auto	*password = Gtk::make_managed<Gtk::Label>();
+	auto	*reachable_icon = Gtk::make_managed<Gtk::Image>();
+	auto	*saved_icon = Gtk::make_managed<Gtk::Image>();
 	setup_labels(name, ip, login, password);
+	setup_icons(reachable_icon, saved_icon);
 	box->append(*name);
 	box->append(*ip);
 	box->append(*login);
 	box->append(*password);
+	box->append(*reachable_icon);
+	box->append(*saved_icon);
 	box->set_expand(true);
 	// box->set_halign(Gtk::Align::FILL);
 	list_item->set_child(*box);
@@ -145,8 +141,32 @@ void			Server::on_bind(Glib::RefPtr<Gtk::ListItem> const &list_item)
 		std::cerr << "No password ?" << std::endl;
 		return;
 	}
+	auto	reachable = dynamic_cast<Gtk::Image*>(password->get_next_sibling());
+	if (!reachable)
+	{
+		std::cerr << "No reachable icon ?" << std::endl;
+		return;
+	}
 	name->set_markup("<b>" + server->name + "</b>");
 	ip->set_markup(server->ip);
 	login->set_markup(server->login);
 	password->set_markup(server->password);
+	if (server->is_reachable())
+		reachable->set_from_icon_name(REACHABLE_ICON);
+	else
+		reachable->set_from_icon_name(UNREACHABLE_ICON);
+}
+
+bool	Server::is_reachable(void) const
+{
+	Glib::ustring	command;
+	bool			status;
+
+	command = "powershell -command \"Test-WSMan -ComputerName ";
+	command += ip;
+	command += " -ErrorAction SilentlyContinue | Out-Null\"";
+	status = system(command.c_str());
+	// std::cout << name << ": ";
+	// std::cout << (status ? "Error" : "Ok") << std::endl;
+	return (!status);
 }
