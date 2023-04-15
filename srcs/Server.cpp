@@ -71,14 +71,21 @@ void			Server::setup_labels(Gtk::Label *name, Gtk::Label *ip,
 	password->set_selectable(true);
 }
 
-void			Server::setup_icons(Gtk::Image *reachable, Gtk::Image *saved)
+// void			Server::setup_icons(Gtk::Image *reachable, Gtk::Image *saved)
+// {
+// 	// logos d'erreur par défaut
+// 	saved->set_from_icon_name(UNSAVED_ICON);
+// 	reachable->set_icon_size(Gtk::IconSize::LARGE);
+// 	saved->set_icon_size(Gtk::IconSize::LARGE);
+// 	reachable->set_expand();
+// 	saved->set_expand();
+// }
+
+void			Server::setup_icons(Gtk::Picture *reachable)
 {
 	// logos d'erreur par défaut
-	saved->set_from_icon_name(UNSAVED_ICON);
-	reachable->set_icon_size(Gtk::IconSize::LARGE);
-	saved->set_icon_size(Gtk::IconSize::LARGE);
+	// reachable->set_icon_size(Gtk::IconSize::LARGE);
 	reachable->set_expand();
-	saved->set_expand();
 }
 
 void			Server::on_setup(Glib::RefPtr<Gtk::ListItem> const &list_item)
@@ -88,16 +95,17 @@ void			Server::on_setup(Glib::RefPtr<Gtk::ListItem> const &list_item)
 	auto	*ip = Gtk::make_managed<Gtk::Label>();
 	auto	*login = Gtk::make_managed<Gtk::Label>();
 	auto	*password = Gtk::make_managed<Gtk::Label>();
-	auto	*reachable_icon = Gtk::make_managed<Gtk::Image>();
-	auto	*saved_icon = Gtk::make_managed<Gtk::Image>();
+	auto	*reachable_icon = Gtk::make_managed<Gtk::Picture>();
+	// auto	*saved_icon = Gtk::make_managed<Gtk::Image>();
 	setup_labels(name, ip, login, password);
-	setup_icons(reachable_icon, saved_icon);
+	// setup_icons(reachable_icon, saved_icon);
+	setup_icons(reachable_icon);
 	box->append(*name);
 	box->append(*ip);
 	box->append(*login);
 	box->append(*password);
 	box->append(*reachable_icon);
-	box->append(*saved_icon);
+	// box->append(*saved_icon);
 	box->set_expand(true);
 	// box->set_halign(Gtk::Align::FILL);
 	list_item->set_child(*box);
@@ -141,7 +149,7 @@ void			Server::on_bind(Glib::RefPtr<Gtk::ListItem> const &list_item)
 		std::cerr << "No password ?" << std::endl;
 		return;
 	}
-	auto	reachable = dynamic_cast<Gtk::Image*>(password->get_next_sibling());
+	auto	reachable = dynamic_cast<Gtk::Picture*>(password->get_next_sibling());
 	if (!reachable)
 	{
 		std::cerr << "No reachable icon ?" << std::endl;
@@ -151,10 +159,13 @@ void			Server::on_bind(Glib::RefPtr<Gtk::ListItem> const &list_item)
 	ip->set_markup(server->ip);
 	login->set_markup(server->login);
 	password->set_markup(server->password);
+
+	Glib::RefPtr<Gdk::Texture>	texture;
 	if (server->is_reachable())
-		reachable->set_from_icon_name(REACHABLE_ICON);
+		texture = Gdk::Texture::create_from_filename("ui/conection.png");
 	else
-		reachable->set_from_icon_name(UNREACHABLE_ICON);
+		texture = Gdk::Texture::create_from_filename("ui/close.png");
+	reachable->set_paintable(texture);
 }
 
 bool	Server::is_reachable(void) const
@@ -162,7 +173,7 @@ bool	Server::is_reachable(void) const
 	Glib::ustring	command;
 	bool			status;
 
-	command = "powershell -command \"Test-WSMan -ComputerName ";
+	command = "powershell -WindowStyle hidden -command \"Test-WSMan -ComputerName ";
 	command += ip;
 	command += " -ErrorAction SilentlyContinue | Out-Null\"";
 	status = system(command.c_str());
