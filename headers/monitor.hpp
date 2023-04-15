@@ -15,7 +15,9 @@
 #include <gtkmm/listview.h>
 #include <gtkmm/listitem.h>
 #include <gtkmm/label.h>
-#include <gtkmm/image.h>
+// #include <gtkmm/image.h>
+#include <gtkmm/picture.h>
+#include <gdkmm/pixbuf.h>
 #include <functional>
 #include <chrono>
 #include <thread>

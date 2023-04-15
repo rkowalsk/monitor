@@ -11,7 +11,7 @@ SRCS =	srcs/main.cpp \
 		srcs/get_config.cpp \
 		srcs/Server.cpp
 
-PKG_FLAGS = -g2 -Wall -Wextra -Werror $(shell pkg-config gtkmm-4.0 --cflags --libs)
+PKG_FLAGS = -Wall -Wextra -Werror $(shell pkg-config gtkmm-4.0 --cflags --libs)
 
 .PHONY: all fclean re
 

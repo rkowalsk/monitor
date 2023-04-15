@@ -32,7 +32,8 @@ class Server : public Glib::Object
 	private:
 		static void		setup_labels(Gtk::Label *name, Gtk::Label *ip,
 			Gtk::Label *login, Gtk::Label *password);
-		static void		setup_icons(Gtk::Image *reachable, Gtk::Image *saved);
+		// static void		setup_icons(Gtk::Image *reachable, Gtk::Image *saved);
+		static void		setup_icons(Gtk::Picture *reachable);
 
 		Glib::ustring	name;
 		Glib::ustring	ip;
